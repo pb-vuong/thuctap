@@ -16,7 +16,7 @@ public class CartsController : ControllerBase
         _context = context;
     }
 
-    // 1. LẤY GIỎ HÀNG CỦA USER (Hiển thị ở Frame 1)
+    // 1. LẤY GIỎ HÀNG CỦA USER 
     [HttpGet("user/{userId}")]
     public async Task<IActionResult> GetCart(int userId)
     {
@@ -41,7 +41,7 @@ public class CartsController : ControllerBase
                       TotalItemPrice = prod.Price * item.Quantity
                   }).ToListAsync();
 
-        // Tính toán lại SubTotal, Tax, Total trước khi trả về (Giống Frame 1)
+        // Tính toán lại SubTotal, Tax, Total trước khi trả về 
         decimal subTotal = cartItems.Sum(x => x.TotalItemPrice);
         decimal tax = subTotal * 0.1m; // Giả sử thuế 10%
         decimal total = subTotal + tax;
@@ -56,7 +56,7 @@ public class CartsController : ControllerBase
         });
     }
 
-    // 2. THÊM SẢN PHẨM VÀO GIỎ (Khi bấm nút ở Frame 3)
+    // 2. THÊM SẢN PHẨM VÀO GIỎ 
     [Authorize(Roles ="user")]
     [HttpPost("add-item")]
     public async Task<IActionResult> AddToCart(int userId, int productId, int quantity)
