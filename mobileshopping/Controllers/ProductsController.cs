@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using mobileshopping.DTOs;
 using mobileshopping.Services;
 
@@ -37,6 +38,7 @@ namespace mobileshopping.Controllers
 
         // POST: api/Products
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] ProductDto dto)
         {
             if (!ModelState.IsValid)
@@ -49,6 +51,7 @@ namespace mobileshopping.Controllers
 
         // PUT: api/Products/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int id, [FromBody] ProductDto dto)
         {
             if (!ModelState.IsValid)
@@ -65,6 +68,7 @@ namespace mobileshopping.Controllers
 
         // DELETE: api/Products/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var deleted = await _productService.DeleteAsync(id);

@@ -38,7 +38,6 @@ namespace mobileshopping.Repositories
         {
             IQueryable<T> query = _dbSet;
 
-            // Áp dụng điều kiện tìm kiếm
             query = query.Where(filter);
 
             if (!string.IsNullOrWhiteSpace(includeProperties))

@@ -15,7 +15,6 @@ namespace mobileshopping.Services
 
         public async Task<CartDto?> GetCartByUserIdAsync(int userId)
         {
-            // Dùng hàm GetFirstOrDefaultAsync để lấy Cart kèm theo danh sách CartItems
             var cart = await _unitOfWork.Carts.GetFirstOrDefaultAsync(c => c.UserID == userId, "CartItems");
             if (cart == null) return null;
 
@@ -29,7 +28,6 @@ namespace mobileshopping.Services
                     Id = ci.CartItemID,
                     ProductId = ci.ProductID,
                     Quantity = ci.Quantity
-                    // Lưu ý: Tên sản phẩm và UnitPrice cần truy vấn thêm Product nếu model CartItem không lưu sẵn
                 }).ToList()
             };
         }
@@ -43,7 +41,7 @@ namespace mobileshopping.Services
             {
                 cart = new Cart { UserID = userId, SubTotal = 0, Tax = 0, Total = 0 };
                 await _unitOfWork.Carts.AddAsync(cart);
-                await _unitOfWork.SaveAsync(); // Lưu để sinh CartID
+                await _unitOfWork.SaveAsync();
             }
 
             var product = await _unitOfWork.Products.GetByIdAsync(productId);
@@ -80,7 +78,6 @@ namespace mobileshopping.Services
 
             if (cart != null && product != null)
             {
-                // Trừ tiền khỏi tổng giỏ hàng
                 cart.Total -= (product.Price * cartItem.Quantity);
                 _unitOfWork.Carts.Update(cart);
             }
@@ -95,7 +92,6 @@ namespace mobileshopping.Services
             var cart = await _unitOfWork.Carts.GetFirstOrDefaultAsync(c => c.UserID == userId, "CartItems");
             if (cart == null) return false;
 
-            // Xóa tất cả item trong giỏ
             if (cart.CartItems != null && cart.CartItems.Any())
             {
                 _unitOfWork.CartItems.DeleteRange(cart.CartItems);

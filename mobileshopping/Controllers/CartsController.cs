@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using mobileshopping.Services;
 
 namespace mobileshopping.Controllers
@@ -28,6 +29,7 @@ namespace mobileshopping.Controllers
 
         // POST: api/Carts/5/add?productId=1&quantity=2
         [HttpPost("{userId}/add")]
+        [Authorize(Roles = "user")]
         public async Task<IActionResult> AddToCart(int userId, [FromQuery] int productId, [FromQuery] int quantity = 1)
         {
             if (quantity <= 0)
@@ -45,6 +47,7 @@ namespace mobileshopping.Controllers
 
         // DELETE: api/Carts/items/5
         [HttpDelete("items/{cartItemId}")]
+        [Authorize(Roles = "user")]
         public async Task<IActionResult> RemoveItem(int cartItemId)
         {
             var result = await _cartService.RemoveItemAsync(cartItemId);
@@ -57,6 +60,7 @@ namespace mobileshopping.Controllers
 
         // DELETE: api/Carts/5/clear
         [HttpDelete("{userId}/clear")]
+        [Authorize(Roles = "user")]
         public async Task<IActionResult> ClearCart(int userId)
         {
             var result = await _cartService.ClearCartAsync(userId);

@@ -18,13 +18,13 @@ namespace mobileshopping.Services
             var products = await _unitOfWork.Products.GetAllAsync(null);
             return products.Select(p => new ProductDto
             {
-                Id = p.ProductID,           // Sửa thành ProductID
-                Name = p.ProductName,      // Sửa thành ProductName
+                Id = p.ProductID,          
+                Name = p.ProductName,      
                 Description = p.Description,
                 Price = p.Price,
-                // Stock = p.Stock,        // Xóa dòng này vì Model không có Stock
-                ImageURL = p.ImageURL,     // Sửa thành ImageURL
-                CategoryId = p.CategoryID  // Sửa thành CategoryID
+        
+                ImageURL = p.ImageURL,    
+                CategoryId = p.CategoryID  
             });
         }
 
@@ -58,7 +58,7 @@ namespace mobileshopping.Services
             await _unitOfWork.Products.AddAsync(product);
             await _unitOfWork.SaveAsync();
 
-            dto.Id = product.ProductID; // Cập nhật lại ID sau khi lưu
+            dto.Id = product.ProductID;
             return dto;
         }
 

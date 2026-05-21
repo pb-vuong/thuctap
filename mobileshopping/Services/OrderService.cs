@@ -18,7 +18,7 @@ namespace mobileshopping.Services
             // 1. Lấy giỏ hàng của User
             var cart = await _unitOfWork.Carts.GetFirstOrDefaultAsync(c => c.UserID == userId, "CartItems");
             if (cart == null || cart.CartItems == null || !cart.CartItems.Any())
-                return null; // Giỏ hàng rỗng thì không tạo đơn được
+                return null; 
 
             // 2. Tạo Đơn hàng mới
             var order = new Order
@@ -41,7 +41,7 @@ namespace mobileshopping.Services
                     {
                         ProductID = item.ProductID,
                         Quantity = item.Quantity,
-                        Price = product.Price // Lưu cứng giá tại thời điểm mua
+                        Price = product.Price 
                     });
                 }
             }
@@ -75,7 +75,7 @@ namespace mobileshopping.Services
                 UserId = o.UserID.ToString(),
                 OrderDate = o.OrderDate,
                 TotalAmount = o.Total,
-                Status = "Completed", // Bạn có thể tùy chỉnh cờ Status trong DB
+                Status = "Completed", 
                 OrderItems = o.OrderItems.Select(oi => new OrderItemDto
                 {
                     ProductId = oi.ProductID,
