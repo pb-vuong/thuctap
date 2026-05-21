@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using mobileshopping.Data;
-using mobileshopping.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Mvc;
+using mobileshopping.DTOs;
+using mobileshopping.Services;
 
 namespace mobileshopping.Controllers
 {
@@ -15,124 +8,71 @@ namespace mobileshopping.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IProductService _productService;
 
-        public ProductsController(AppDbContext context)
+        public ProductsController(IProductService productService)
         {
-            _context = context;
+            _productService = productService;
         }
 
         // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts(
-            [FromQuery] decimal? minPrice,
-            [FromQuery] decimal? maxPrice,
-            [FromQuery] double? minRating)
+        public async Task<IActionResult> GetAll()
         {
-            // 1. Tạo truy vấn gốc từ DbSet Products
-            var query = _context.Products.AsQueryable();
-
-            // 2. Lọc theo giá tối thiểu (nếu có truyền vào)
-            if (minPrice.HasValue)
-            {
-                query = query.Where(p => p.Price >= minPrice.Value);
-            }
-
-            // 3. Lọc theo giá tối đa (nếu có truyền vào)
-            if (maxPrice.HasValue)
-            {
-                query = query.Where(p => p.Price <= maxPrice.Value);
-            }
-
-            // 4. Lọc theo số sao đánh giá tối thiểu 
-            // Lưu ý: Trong Model của bạn thuộc tính này tên là 'Rating'
-            if (minRating.HasValue)
-            {
-                query = query.Where(p => p.Rating >= minRating.Value);
-            }
-
-            // 5. Thực thi truy vấn và trả về danh sách đã lọc
-            return await query.ToListAsync();
+            var products = await _productService.GetAllAsync();
+            return Ok(products);
         }
 
         // GET: api/Products/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-
+            var product = await _productService.GetByIdAsync(id);
             if (product == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Không tìm thấy sản phẩm này." });
             }
-
-            return product;
-        }
-
-        // PUT: api/Products/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize(Roles ="Admin")]
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(int id, Product product)
-        {
-            if (id != product.ProductID)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(product).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok(product);
         }
 
         // POST: api/Products
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize(Roles ="Admin")]
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public async Task<IActionResult> Create([FromBody] ProductDto dto)
         {
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetProduct", new { id = product.ProductID }, product);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = await _productService.AddAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
 
-        // DELETE: api/Products/5
-        [Authorize(Roles = "Admin")]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct(int id)
+        // PUT: api/Products/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] ProductDto dto)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return BadRequest(ModelState);
             }
-
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
-
+            var updated = await _productService.UpdateAsync(id, dto);
+            if (!updated)
+            {
+                return NotFound(new { message = "Không tìm thấy sản phẩm để cập nhật." });
+            }
             return NoContent();
         }
 
-        private bool ProductExists(int id)
+        // DELETE: api/Products/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            return _context.Products.Any(e => e.ProductID == id);
+            var deleted = await _productService.DeleteAsync(id);
+            if (!deleted)
+            {
+                return NotFound(new { message = "Không tìm thấy sản phẩm để xóa." });
+            }
+            return Ok(new { message = "Xóa sản phẩm thành công." });
         }
     }
 }

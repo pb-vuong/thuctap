@@ -4,95 +4,89 @@ using mobileshopping.Repositories;
 
 namespace mobileshopping.Services
 {
-   
-   public class ProductService : IProductService
+    public class ProductService : IProductService
     {
-        private readonly IUnitOfWork _uow;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ProductService(IUnitOfWork uow)
+        public ProductService(IUnitOfWork unitOfWork)
         {
-            _uow = uow;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<IEnumerable<ProductDto>> GetAllAsync()
         {
-            // Lấy danh sách sản phẩm kèm theo thông tin Category
-            var products = await _uow.Products.GetAllAsync(includeProperties: "Category");
-
-            // Map Entity -> DTO
+            var products = await _unitOfWork.Products.GetAllAsync(null);
             return products.Select(p => new ProductDto
+            {
+                Id = p.ProductID,           // Sửa thành ProductID
+                Name = p.ProductName,      // Sửa thành ProductName
+                Description = p.Description,
+                Price = p.Price,
+                // Stock = p.Stock,        // Xóa dòng này vì Model không có Stock
+                ImageURL = p.ImageURL,     // Sửa thành ImageURL
+                CategoryId = p.CategoryID  // Sửa thành CategoryID
+            });
+        }
+
+        public async Task<ProductDto?> GetByIdAsync(int id)
+        {
+            var p = await _unitOfWork.Products.GetByIdAsync(id);
+            if (p == null) return null;
+
+            return new ProductDto
             {
                 Id = p.ProductID,
                 Name = p.ProductName,
                 Description = p.Description,
                 Price = p.Price,
-                CategoryId = p.CategoryID,
-                CategoryName = p.Category?.CategoryName
-            });
-        }
-
-        public async Task<ProductDto> GetByIdAsync(int ProductId)
-        {
-            var product = await _uow.Products.GetFirstOrDefaultAsync(p => p.ProductId == ProductId, includeProperties: "Category");
-            if (product == null) return null;
-
-            return new ProductDto
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                Price = product.Price,
-                CategoryId = product.CategoryId,
-                CategoryName = product.Category?.Name
+                ImageURL= p.ImageURL,
+                CategoryId = p.CategoryID
             };
         }
 
-        public async Task<ProductDto> CreateAsync(ProductDto dto)
+        public async Task<ProductDto> AddAsync(ProductDto dto)
         {
-            // Map DTO -> Entity
             var product = new Product
             {
                 ProductName = dto.Name,
                 Description = dto.Description,
                 Price = dto.Price,
+                ImageURL = dto.ImageURL,
                 CategoryID = dto.CategoryId
             };
 
-            await _uow.Products.AddAsync(product);
-            await _uow.SaveAsync();
+            await _unitOfWork.Products.AddAsync(product);
+            await _unitOfWork.SaveAsync();
 
-            dto.Id = product.CategoryID; // Gán lại ID sau khi lưu db
+            dto.Id = product.ProductID; // Cập nhật lại ID sau khi lưu
             return dto;
         }
 
-        public async Task UpdateAsync(int id, ProductDto dto)
+        public async Task<bool> UpdateAsync(int id, ProductDto dto)
         {
-            var product = await _uow.Products.GetByIdAsync(id);
-            if (product != null)
-            {
-                product.ProductName = dto.Name;
-                product.Description = dto.Description;
-                product.Price = dto.Price;
-                product.CategoryID = dto.CategoryId;
+            var product = await _unitOfWork.Products.GetByIdAsync(id);
+            if (product == null) return false;
 
-                _uow.Products.Update(product);
-                await _uow.SaveAsync();
-            }
+            // Cập nhật thông tin
+            product.ProductName = dto.Name;
+            product.Description = dto.Description;
+            product.Price = dto.Price;
+            product.ImageURL = dto.ImageURL;
+            product.CategoryID = dto.CategoryId;
+
+            _unitOfWork.Products.Update(product);
+            await _unitOfWork.SaveAsync();
+            return true;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            var product = await _uow.Products.GetByIdAsync(id);
-            if (product != null)
-            {
-                _uow.Products.Remove(product);
-                await _uow.SaveAsync();
-            }
-        }
+            var product = await _unitOfWork.Products.GetByIdAsync(id);
+            if (product == null) return false;
 
-        Task IProductService.CreateAsync(ProductDto dto)
-        {
-            return CreateAsync(dto);
+            _unitOfWork.Products.Delete(product);
+            await _unitOfWork.SaveAsync();
+            return true;
         }
     }
 }

@@ -6,89 +6,83 @@ namespace mobileshopping.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly IUnitOfWork _uow;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public OrderService(IUnitOfWork uow)
+        public OrderService(IUnitOfWork unitOfWork)
         {
-            _uow = uow;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<OrderDto> CreateOrderFromCartAsync(string userId)
+        public async Task<OrderDto?> CreateOrderFromCartAsync(int userId)
         {
-            // 1. Lấy giỏ hàng của user
-            var cart = await _uow.Carts.GetFirstOrDefaultAsync(c => c.UserId == userId, includeProperties: "CartItems.Product");
-            if (cart == null || !cart.CartItems.Any())
-                throw new Exception("Giỏ hàng trống!");
+            // 1. Lấy giỏ hàng của User
+            var cart = await _unitOfWork.Carts.GetFirstOrDefaultAsync(c => c.UserID == userId, "CartItems");
+            if (cart == null || cart.CartItems == null || !cart.CartItems.Any())
+                return null; // Giỏ hàng rỗng thì không tạo đơn được
 
-            // 2. Tính tổng tiền
-            decimal totalAmount = cart.CartItems.Sum(item => item.Quantity * item.Product.Price);
-
-            // 3. Tạo Đơn hàng (Order)
+            // 2. Tạo Đơn hàng mới
             var order = new Order
             {
-                UserId = userId,
-                OrderDate = DateTime.UtcNow,
-                Status = "Pending",
-                TotalAmount = totalAmount,
-                OrderItems = cart.CartItems.Select(ci => new OrderItem
-                {
-                    ProductId = ci.ProductId,
-                    Quantity = ci.Quantity,
-                    UnitPrice = ci.Product.Price
-                }).ToList()
+                UserID = userId,
+                OrderDate = DateTime.Now,
+                SubTotal = cart.SubTotal,
+                Tax = cart.Tax,
+                Total = cart.Total,
+                OrderItems = new List<OrderItem>()
             };
 
-            await _uow.Orders.AddAsync(order);
-
-            // 4. Xóa giỏ hàng sau khi đặt hàng thành công
-            _uow.CartItems.RemoveRange(cart.CartItems);
-
-            // 5. Lưu vào database (Sử dụng Transaction của UoW)
-            await _uow.SaveAsync();
-
-            return new OrderDto { Id = order.Id, TotalAmount = order.TotalAmount, Status = order.Status };
-        }
-
-        public async Task<IEnumerable<OrderDto>> GetUserOrdersAsync(string userId)
-        {
-            var orders = await _uow.Orders.GetAllAsync(o => o.UserId == userId, includeProperties: "OrderItems.Product");
-
-            return orders.Select(o => new OrderDto
+            // 3. Chuyển CartItem sang OrderItem
+            foreach (var item in cart.CartItems)
             {
-                Id = o.Id,
-                OrderDate = o.OrderDate,
-                Status = o.Status,
-                TotalAmount = o.TotalAmount,
-                OrderItems = o.OrderItems.Select(oi => new OrderItemDto
+                var product = await _unitOfWork.Products.GetByIdAsync(item.ProductID);
+                if (product != null)
                 {
-                    ProductId = oi.ProductId,
-                    ProductName = oi.Product?.Name,
-                    Quantity = oi.Quantity,
-                    UnitPrice = oi.UnitPrice
-                }).ToList()
-            });
-        }
+                    order.OrderItems.Add(new OrderItem
+                    {
+                        ProductID = item.ProductID,
+                        Quantity = item.Quantity,
+                        Price = product.Price // Lưu cứng giá tại thời điểm mua
+                    });
+                }
+            }
 
-        public async Task<OrderDto> GetOrderByIdAsync(int orderId)
-        {
-            var order = await _uow.Orders.GetFirstOrDefaultAsync(o => o.Id == orderId, includeProperties: "OrderItems.Product");
-            if (order == null) return null;
+            await _unitOfWork.Orders.AddAsync(order);
+
+            // 4. Xóa các sản phẩm trong giỏ hàng sau khi đặt hàng thành công
+            _unitOfWork.CartItems.DeleteRange(cart.CartItems);
+            cart.Total = 0;
+            _unitOfWork.Carts.Update(cart);
+
+            await _unitOfWork.SaveAsync();
 
             return new OrderDto
             {
-                Id = order.Id,
-                UserId = order.UserId,
+                Id = order.OrderID,
+                UserId = userId.ToString(),
                 OrderDate = order.OrderDate,
-                Status = order.Status,
-                TotalAmount = order.TotalAmount,
-                OrderItems = order.OrderItems.Select(oi => new OrderItemDto
-                {
-                    ProductId = oi.ProductId,
-                    ProductName = oi.Product?.Name,
-                    Quantity = oi.Quantity,
-                    UnitPrice = oi.UnitPrice
-                }).ToList()
+                TotalAmount = order.Total,
+                Status = "Pending"
             };
+        }
+
+        public async Task<IEnumerable<OrderDto>> GetOrdersByUserIdAsync(int userId)
+        {
+            var orders = await _unitOfWork.Orders.GetAllAsync("OrderItems");
+
+            return orders.Where(o => o.UserID == userId).Select(o => new OrderDto
+            {
+                Id = o.OrderID,
+                UserId = o.UserID.ToString(),
+                OrderDate = o.OrderDate,
+                TotalAmount = o.Total,
+                Status = "Completed", // Bạn có thể tùy chỉnh cờ Status trong DB
+                OrderItems = o.OrderItems.Select(oi => new OrderItemDto
+                {
+                    ProductId = oi.ProductID,
+                    Quantity = oi.Quantity,
+                    UnitPrice = oi.Price
+                }).ToList()
+            });
         }
     }
 }

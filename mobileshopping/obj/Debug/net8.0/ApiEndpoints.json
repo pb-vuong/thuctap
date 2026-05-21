@@ -42,9 +42,25 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "CartsController",
+    "ContainingType": "mobileshopping.Controllers.CartsController",
+    "Method": "GetCart",
+    "RelativePath": "api/Carts/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "mobileshopping.Controllers.CartsController",
     "Method": "AddToCart",
-    "RelativePath": "api/Carts/add-item",
+    "RelativePath": "api/Carts/{userId}/add",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -52,7 +68,7 @@
       {
         "Name": "userId",
         "Type": "System.Int32",
-        "IsRequired": false
+        "IsRequired": true
       },
       {
         "Name": "productId",
@@ -68,9 +84,25 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "CartsController",
+    "ContainingType": "mobileshopping.Controllers.CartsController",
+    "Method": "ClearCart",
+    "RelativePath": "api/Carts/{userId}/clear",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "mobileshopping.Controllers.CartsController",
     "Method": "RemoveItem",
-    "RelativePath": "api/Carts/remove-item/{cartItemId}",
+    "RelativePath": "api/Carts/items/{cartItemId}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -84,10 +116,10 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "CartsController",
-    "Method": "GetCart",
-    "RelativePath": "api/Carts/user/{userId}",
-    "HttpMethod": "GET",
+    "ContainingType": "mobileshopping.Controllers.OrdersController",
+    "Method": "Checkout",
+    "RelativePath": "api/Orders/checkout/{userId}",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -101,131 +133,49 @@
   },
   {
     "ContainingType": "mobileshopping.Controllers.OrdersController",
-    "Method": "BuyNow",
-    "RelativePath": "api/Orders/buy-now",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "productId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "quantity",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "mobileshopping.Models.Order",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "mobileshopping.Controllers.OrdersController",
-    "Method": "CheckoutCart",
-    "RelativePath": "api/Orders/checkout-cart",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "mobileshopping.Models.Order",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "mobileshopping.Controllers.ProductsController",
-    "Method": "GetProducts",
-    "RelativePath": "api/Products",
+    "Method": "GetUserOrders",
+    "RelativePath": "api/Orders/user/{userId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "minPrice",
-        "Type": "System.Nullable\u00601[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "maxPrice",
-        "Type": "System.Nullable\u00601[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "minRating",
-        "Type": "System.Nullable\u00601[[System.Double, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[mobileshopping.Models.Product, mobileshopping, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "mobileshopping.Controllers.ProductsController",
-    "Method": "PostProduct",
+    "Method": "GetAll",
+    "RelativePath": "api/Products",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "mobileshopping.Controllers.ProductsController",
+    "Method": "Create",
     "RelativePath": "api/Products",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "product",
-        "Type": "mobileshopping.Models.Product",
+        "Name": "dto",
+        "Type": "mobileshopping.DTOs.ProductDto",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "mobileshopping.Models.Product",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "mobileshopping.Controllers.ProductsController",
-    "Method": "GetProduct",
+    "Method": "GetById",
     "RelativePath": "api/Products/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -237,21 +187,11 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "mobileshopping.Models.Product",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "mobileshopping.Controllers.ProductsController",
-    "Method": "PutProduct",
+    "Method": "Update",
     "RelativePath": "api/Products/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
@@ -263,8 +203,8 @@
         "IsRequired": true
       },
       {
-        "Name": "product",
-        "Type": "mobileshopping.Models.Product",
+        "Name": "dto",
+        "Type": "mobileshopping.DTOs.ProductDto",
         "IsRequired": true
       }
     ],
@@ -272,7 +212,7 @@
   },
   {
     "ContainingType": "mobileshopping.Controllers.ProductsController",
-    "Method": "DeleteProduct",
+    "Method": "Delete",
     "RelativePath": "api/Products/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,

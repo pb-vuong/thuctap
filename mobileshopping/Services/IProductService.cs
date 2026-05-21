@@ -7,23 +7,23 @@ namespace mobileshopping.Services
    
     {
         Task<IEnumerable<ProductDto>> GetAllAsync();
-        Task<ProductDto> GetByIdAsync(int id);
-        Task CreateAsync(ProductDto dto);
-        Task UpdateAsync(int id, ProductDto dto);
-        Task DeleteAsync(int id);
+        Task<ProductDto?> GetByIdAsync(int id);
+        Task<ProductDto> AddAsync(ProductDto dto);
+        Task<bool> UpdateAsync(int id, ProductDto dto);
+        Task<bool> DeleteAsync(int id);
     }
 
     public interface ICartService
     {
-        Task<CartDto> GetCartByUserIdAsync(string userId);
-        Task AddToCartAsync(string userId, int productId, int quantity);
-        Task RemoveFromCartAsync(string userId, int cartItemId);
-        Task ClearCartAsync(string userId);
+        Task<CartDto?> GetCartByUserIdAsync(int userId);
+        Task<bool> AddToCartAsync(int userId, int productId, int quantity);
+        Task<bool> RemoveItemAsync(int cartItemId);
+        Task<bool> ClearCartAsync(int userId);
     }
 
     public interface IOrderService
     {
-        Task<OrderDto> CheckoutAsync(string userId);
-        Task<IEnumerable<OrderDto>> GetUserOrdersAsync(string userId);
+        Task<OrderDto?> CreateOrderFromCartAsync(int userId);
+        Task<IEnumerable<OrderDto>> GetOrdersByUserIdAsync(int userId);
     }
 }

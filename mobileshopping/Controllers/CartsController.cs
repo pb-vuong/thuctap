@@ -1,112 +1,70 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using mobileshopping.Data;
-using mobileshopping.Models;
-using mobileshopping.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using mobileshopping.Services;
 
-[Route("api/[controller]")]
-[ApiController]
-public class CartsController : ControllerBase
+namespace mobileshopping.Controllers
 {
-    private readonly AppDbContext _context;
-
-    public CartsController(AppDbContext context)
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CartsController : ControllerBase
     {
-        _context = context;
-    }
+        private readonly ICartService _cartService;
 
-    // 1. LẤY GIỎ HÀNG CỦA USER 
-    [HttpGet("user/{userId}")]
-    public async Task<IActionResult> GetCart(int userId)
-    {
-        // Tìm giỏ hàng của User này, kèm theo danh sách các món đồ (Items) bên trong
-        var cart = await _context.Carts
-            .FirstOrDefaultAsync(c => c.UserID == userId);
-
-        if (cart == null) return NotFound("Người dùng này chưa có giỏ hàng.");
-
-        // Lấy danh sách Item và thông tin sản phẩm (để lấy tên, ảnh, giá sản phẩm)
-        var cartItems = await _context.CartItems
-            .Where(ci => ci.CartID == cart.CartID)
-            .Join(_context.Products,
-                  item => item.ProductID,
-                  prod => prod.ProductID,
-                  (item, prod) => new {
-                      item.CartItemID,
-                      prod.ProductName,
-                      prod.ImageURL,
-                      prod.Price,
-                      item.Quantity,
-                      TotalItemPrice = prod.Price * item.Quantity
-                  }).ToListAsync();
-
-        // Tính toán lại SubTotal, Tax, Total trước khi trả về 
-        decimal subTotal = cartItems.Sum(x => x.TotalItemPrice);
-        decimal tax = subTotal * 0.1m; // Giả sử thuế 10%
-        decimal total = subTotal + tax;
-
-        return Ok(new
+        public CartsController(ICartService cartService)
         {
-            cart.CartID,
-            Items = cartItems,
-            SubTotal = subTotal,
-            Tax = tax,
-            Total = total
-        });
-    }
-
-    // 2. THÊM SẢN PHẨM VÀO GIỎ 
-    [Authorize(Roles ="user")]
-    [HttpPost("add-item")]
-    public async Task<IActionResult> AddToCart(int userId, int productId, int quantity)
-    {
-        // B1: Tìm giỏ hàng của User, nếu chưa có thì tạo mới
-        var cart = await _context.Carts.FirstOrDefaultAsync(c => c.UserID == userId);
-        if (cart == null)
-        {
-            cart = new Cart { UserID = userId };
-            _context.Carts.Add(cart);
-            await _context.SaveChangesAsync();
+            _cartService = cartService;
         }
 
-        // B2: Kiểm tra sản phẩm này đã có trong giỏ chưa
-        var existingItem = await _context.CartItems
-            .FirstOrDefaultAsync(ci => ci.CartID == cart.CartID && ci.ProductID == productId);
-
-        if (existingItem != null)
+        // GET: api/Carts/5
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetCart(int userId)
         {
-            // Nếu có rồi thì tăng số lượng
-            existingItem.Quantity += quantity;
-        }
-        else
-        {
-            // Nếu chưa có thì thêm mới Item
-            var newItem = new CartItem
+            var cart = await _cartService.GetCartByUserIdAsync(userId);
+            if (cart == null)
             {
-                CartID = cart.CartID,
-                ProductID = productId,
-                Quantity = quantity
-            };
-            _context.CartItems.Add(newItem);
+                return NotFound(new { message = "Giỏ hàng trống hoặc không tồn tại." });
+            }
+            return Ok(cart);
         }
 
-        await _context.SaveChangesAsync();
-        return Ok("Đã cập nhật giỏ hàng thành công");
+        // POST: api/Carts/5/add?productId=1&quantity=2
+        [HttpPost("{userId}/add")]
+        public async Task<IActionResult> AddToCart(int userId, [FromQuery] int productId, [FromQuery] int quantity = 1)
+        {
+            if (quantity <= 0)
+            {
+                return BadRequest(new { message = "Số lượng thêm vào phải lớn hơn 0." });
+            }
+
+            var result = await _cartService.AddToCartAsync(userId, productId, quantity);
+            if (!result)
+            {
+                return BadRequest(new { message = "Không thể thêm vào giỏ hàng. Hãy kiểm tra lại ID sản phẩm." });
+            }
+            return Ok(new { message = "Đã thêm sản phẩm vào giỏ hàng." });
+        }
+
+        // DELETE: api/Carts/items/5
+        [HttpDelete("items/{cartItemId}")]
+        public async Task<IActionResult> RemoveItem(int cartItemId)
+        {
+            var result = await _cartService.RemoveItemAsync(cartItemId);
+            if (!result)
+            {
+                return NotFound(new { message = "Không tìm thấy sản phẩm này trong giỏ hàng." });
+            }
+            return Ok(new { message = "Đã xóa sản phẩm khỏi giỏ hàng thành công." });
+        }
+
+        // DELETE: api/Carts/5/clear
+        [HttpDelete("{userId}/clear")]
+        public async Task<IActionResult> ClearCart(int userId)
+        {
+            var result = await _cartService.ClearCartAsync(userId);
+            if (!result)
+            {
+                return NotFound(new { message = "Không thể xóa hoặc giỏ hàng đã trống sẵn." });
+            }
+            return Ok(new { message = "Đã dọn dẹp sạch toàn bộ giỏ hàng." });
+        }
     }
-
-    // 3. XÓA MÓN ĐỒ KHỎI GIỎ
-    [Authorize(Roles = "user")]
-    [HttpDelete("remove-item/{cartItemId}")]
-    public async Task<IActionResult> RemoveItem(int cartItemId)
-    {
-        var item = await _context.CartItems.FindAsync(cartItemId);
-        if (item == null) return NotFound();
-
-        _context.CartItems.Remove(item);
-        await _context.SaveChangesAsync();
-        return Ok("Đã xóa sản phẩm khỏi giỏ");
-    }
-
-
 }
