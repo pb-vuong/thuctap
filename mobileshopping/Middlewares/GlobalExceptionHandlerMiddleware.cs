@@ -1,11 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using mobileshopping.Exceptions; // Thêm dòng này để gọi được các Custom Exceptions
-using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using mobileshopping.Exceptions;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace mobileshopping.Middlewares
 {

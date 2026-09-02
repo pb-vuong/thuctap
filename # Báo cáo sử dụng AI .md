@@ -24,8 +24,12 @@ Tổng hợp các hạng mục công việc đã thực hiện trong dự án Mo
 *   **Kiểm soát luồng dữ liệu:** Định nghĩa các **DTOs** (Data Transfer Objects) để format dữ liệu giao tiếp giữa hệ thống Backend và ứng dụng client, tăng cường tính bảo mật.
 
 
-
 ### 2.3. Kiểm thử & Khắc phục Lỗi (Troubleshooting)
 *   **Unit Testing:** Khởi tạo môi trường và viết các kịch bản test bằng **xUnit** kết hợp **Moq** để mock các dependencies. Quá trình test tập trung cover logic nghiệp vụ chuyên sâu tại tầng Service.
-*   **Fix Bug & Version Control:** Trực tiếp phân tích và xử lý triệt để lỗi đăng ký tài khoản (account registration errors) trên nhánh ECommerceMVC,**.
 
+
+
+### 3. Cấu hình và Phát triển Middleware
+*   **Middleware Xác thực và Phân quyền (Auth Middleware):** Tích hợp `UseAuthentication` và `UseAuthorization` vào pipeline của ứng dụng để kiểm tra, xác thực JWT token trên mỗi request từ ứng dụng Android, đảm bảo việc kiểm soát truy cập chặt chẽ vào các API nhạy cảm (như giỏ hàng, thông tin cá nhân).
+*   **Xử lý Ngoại lệ Toàn cục (Global Exception Handling Middleware):** Xây dựng Custom Middleware để bắt (catch) các lỗi phát sinh (exceptions) ở cấp độ toàn cục. Chuẩn hóa dữ liệu trả về (JSON response format) giúp client dễ dàng bắt lỗi và hiển thị thông báo phù hợp cho người dùng mà không làm lộ các log hệ thống nhạy cảm.
+*   **Cấu hình CORS & Ghi log (CORS & Logging Middleware):** Thiết lập chính sách Cross-Origin Resource Sharing (CORS) hợp lý để bảo vệ API và áp dụng middleware ghi log các luồng request/response hỗ trợ cho quá trình theo dõi, debug lỗi hiệu quả hơn.

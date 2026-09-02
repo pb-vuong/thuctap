@@ -7,20 +7,20 @@
       "RelativeMoniker": "D:0:0:{1C6C973D-53C3-4F20-ACE6-1D2AEA4C4A3D}|mobileshopping\\mobileshopping.csproj|solutionrelative:mobileshopping\\middlewares\\globalexceptionhandlermiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BD65FE59-9510-4739-8B81-038E14195231}|TestProject1\\TestProject1.csproj|d:\\thuctap\\thuctap123\\testproject1\\cartservicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BD65FE59-9510-4739-8B81-038E14195231}|TestProject1\\TestProject1.csproj|solutionrelative:testproject1\\cartservicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1C6C973D-53C3-4F20-ACE6-1D2AEA4C4A3D}|mobileshopping\\mobileshopping.csproj|d:\\thuctap\\thuctap123\\mobileshopping\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1C6C973D-53C3-4F20-ACE6-1D2AEA4C4A3D}|mobileshopping\\mobileshopping.csproj|solutionrelative:mobileshopping\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BD65FE59-9510-4739-8B81-038E14195231}|TestProject1\\TestProject1.csproj|d:\\thuctap\\thuctap123\\testproject1\\orderservicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BD65FE59-9510-4739-8B81-038E14195231}|TestProject1\\TestProject1.csproj|solutionrelative:testproject1\\orderservicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1C6C973D-53C3-4F20-ACE6-1D2AEA4C4A3D}|mobileshopping\\mobileshopping.csproj|d:\\thuctap\\thuctap123\\mobileshopping\\exceptions\\customexceptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1C6C973D-53C3-4F20-ACE6-1D2AEA4C4A3D}|mobileshopping\\mobileshopping.csproj|solutionrelative:mobileshopping\\exceptions\\customexceptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BD65FE59-9510-4739-8B81-038E14195231}|TestProject1\\TestProject1.csproj|d:\\thuctap\\thuctap123\\testproject1\\productservicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BD65FE59-9510-4739-8B81-038E14195231}|TestProject1\\TestProject1.csproj|solutionrelative:testproject1\\productservicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1C6C973D-53C3-4F20-ACE6-1D2AEA4C4A3D}|mobileshopping\\mobileshopping.csproj|d:\\thuctap\\thuctap123\\mobileshopping\\exceptions\\customexceptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1C6C973D-53C3-4F20-ACE6-1D2AEA4C4A3D}|mobileshopping\\mobileshopping.csproj|solutionrelative:mobileshopping\\exceptions\\customexceptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BD65FE59-9510-4739-8B81-038E14195231}|TestProject1\\TestProject1.csproj|d:\\thuctap\\thuctap123\\testproject1\\cartservicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD65FE59-9510-4739-8B81-038E14195231}|TestProject1\\TestProject1.csproj|solutionrelative:testproject1\\cartservicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1C6C973D-53C3-4F20-ACE6-1D2AEA4C4A3D}|mobileshopping\\mobileshopping.csproj|d:\\thuctap\\thuctap123\\mobileshopping\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -153,7 +153,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Bookmark",
@@ -180,17 +180,20 @@
               "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "OrderServiceTests.cs",
-              "DocumentMoniker": "D:\\thuctap\\thuctap123\\TestProject1\\OrderServiceTests.cs",
-              "RelativeDocumentMoniker": "TestProject1\\OrderServiceTests.cs",
-              "ToolTip": "D:\\thuctap\\thuctap123\\TestProject1\\OrderServiceTests.cs",
-              "RelativeToolTip": "TestProject1\\OrderServiceTests.cs",
-              "ViewState": "AgIAABQAAAAAAAAAAAAAwBMAAAAvAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "D:\\thuctap\\thuctap123\\mobileshopping\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "mobileshopping\\Controllers\\AuthController.cs",
+              "ToolTip": "D:\\thuctap\\thuctap123\\mobileshopping\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "mobileshopping\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-25T03:46:05.724Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-28T03:13:41.893Z"
             },
             {
               "$type": "Document",
@@ -200,13 +203,25 @@
               "RelativeDocumentMoniker": "TestProject1\\ProductServiceTests.cs",
               "ToolTip": "D:\\thuctap\\thuctap123\\TestProject1\\ProductServiceTests.cs",
               "RelativeToolTip": "TestProject1\\ProductServiceTests.cs",
-              "ViewState": "AgIAAHkAAAAAAAAAAAAgwIgAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAxwCMAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-08-25T01:47:06.086Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
+              "Title": "CustomExceptions.cs",
+              "DocumentMoniker": "D:\\thuctap\\thuctap123\\mobileshopping\\Exceptions\\CustomExceptions.cs",
+              "RelativeDocumentMoniker": "mobileshopping\\Exceptions\\CustomExceptions.cs",
+              "ToolTip": "D:\\thuctap\\thuctap123\\mobileshopping\\Exceptions\\CustomExceptions.cs",
+              "RelativeToolTip": "mobileshopping\\Exceptions\\CustomExceptions.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAYwAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-20T04:44:36.312Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "CartServiceTests.cs",
               "DocumentMoniker": "D:\\thuctap\\thuctap123\\TestProject1\\CartServiceTests.cs",
               "RelativeDocumentMoniker": "TestProject1\\CartServiceTests.cs",
@@ -214,20 +229,7 @@
               "RelativeToolTip": "TestProject1\\CartServiceTests.cs",
               "ViewState": "AgIAABkAAAAAAAAAAAAQwBAAAABMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-25T01:30:37.385Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "CustomExceptions.cs",
-              "DocumentMoniker": "D:\\thuctap\\thuctap123\\mobileshopping\\Exceptions\\CustomExceptions.cs",
-              "RelativeDocumentMoniker": "mobileshopping\\Exceptions\\CustomExceptions.cs",
-              "ToolTip": "D:\\thuctap\\thuctap123\\mobileshopping\\Exceptions\\CustomExceptions.cs",
-              "RelativeToolTip": "mobileshopping\\Exceptions\\CustomExceptions.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-20T04:44:36.312Z"
+              "WhenOpened": "2026-08-25T01:30:37.385Z"
             },
             {
               "$type": "Document",
@@ -237,7 +239,7 @@
               "RelativeDocumentMoniker": "mobileshopping\\Middlewares\\GlobalExceptionHandlerMiddleware.cs",
               "ToolTip": "D:\\thuctap\\thuctap123\\mobileshopping\\Middlewares\\GlobalExceptionHandlerMiddleware.cs",
               "RelativeToolTip": "mobileshopping\\Middlewares\\GlobalExceptionHandlerMiddleware.cs",
-              "ViewState": "AgIAACcAAAAAAAAAAAAuwGMAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAgwCUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-17T04:10:29.352Z",
               "EditorCaption": ""

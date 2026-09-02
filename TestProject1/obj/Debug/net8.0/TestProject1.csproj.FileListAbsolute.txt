@@ -109,7 +109,6 @@ D:\thuctap\thuctap123\TestProject1\bin\Debug\net8.0\System.Memory.Data.dll
 D:\thuctap\thuctap123\TestProject1\bin\Debug\net8.0\System.Reflection.MetadataLoadContext.dll
 D:\thuctap\thuctap123\TestProject1\bin\Debug\net8.0\System.Runtime.Caching.dll
 D:\thuctap\thuctap123\TestProject1\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
-D:\thuctap\thuctap123\TestProject1\bin\Debug\net8.0\System.Text.Json.dll
 D:\thuctap\thuctap123\TestProject1\bin\Debug\net8.0\xunit.abstractions.dll
 D:\thuctap\thuctap123\TestProject1\bin\Debug\net8.0\xunit.assert.dll
 D:\thuctap\thuctap123\TestProject1\bin\Debug\net8.0\xunit.core.dll

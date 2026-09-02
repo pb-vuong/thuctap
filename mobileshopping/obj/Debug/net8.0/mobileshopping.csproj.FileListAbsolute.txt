@@ -352,7 +352,6 @@ D:\thuctap\thuctap123\mobileshopping\bin\Debug\net8.0\System.Memory.Data.dll
 D:\thuctap\thuctap123\mobileshopping\bin\Debug\net8.0\System.Reflection.MetadataLoadContext.dll
 D:\thuctap\thuctap123\mobileshopping\bin\Debug\net8.0\System.Runtime.Caching.dll
 D:\thuctap\thuctap123\mobileshopping\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
-D:\thuctap\thuctap123\mobileshopping\bin\Debug\net8.0\System.Text.Json.dll
 D:\thuctap\thuctap123\mobileshopping\bin\Debug\net8.0\af\Humanizer.resources.dll
 D:\thuctap\thuctap123\mobileshopping\bin\Debug\net8.0\ar\Humanizer.resources.dll
 D:\thuctap\thuctap123\mobileshopping\bin\Debug\net8.0\az\Humanizer.resources.dll
@@ -511,3 +510,7 @@ D:\thuctap\thuctap123\mobileshopping\obj\Debug\net8.0\refint\mobileshopping.dll
 D:\thuctap\thuctap123\mobileshopping\obj\Debug\net8.0\mobileshopping.pdb
 D:\thuctap\thuctap123\mobileshopping\obj\Debug\net8.0\mobileshopping.genruntimeconfig.cache
 D:\thuctap\thuctap123\mobileshopping\obj\Debug\net8.0\ref\mobileshopping.dll
+D:\thuctap\thuctap123\mobileshopping\obj\Debug\net8.0\rpswa.dswa.cache.json
+D:\thuctap\thuctap123\mobileshopping\obj\Debug\net8.0\rjimswa.dswa.cache.json
+D:\thuctap\thuctap123\mobileshopping\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+D:\thuctap\thuctap123\mobileshopping\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
